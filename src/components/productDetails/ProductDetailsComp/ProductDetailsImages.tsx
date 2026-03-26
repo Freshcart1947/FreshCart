@@ -11,7 +11,7 @@ export default function ProductDetailsImages({
 
   return (
     <>
-      <div className="lg:w-1/3 w-full lg:sticky  top-24">
+      <div className="lg:w-1/3 w-full relative lg:sticky  top-24">
         <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-4">
           <div className="overflow-hidden rounded-xl mb-4 bg-gray-50">
             <img
