@@ -1,7 +1,6 @@
 import { NextAuthOptions, User as NextAuthUser } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 
-// Module augmentation to fix the TypeScript error
 declare module "next-auth" {
   interface User {
     userToken?: string;
@@ -20,6 +19,7 @@ declare module "next-auth/jwt" {
 }
 
 export const nextAuthConfig: NextAuthOptions = {
+  secret: process.env.AUTH_SECRET,
   providers: [
     Credentials({
       name: "Fresh Cart",

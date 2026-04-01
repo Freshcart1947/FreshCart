@@ -2,11 +2,11 @@ import { getToken } from "next-auth/jwt";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function proxy(req: NextRequest) {
-  const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
+  const token = await getToken({ req, secret: process.env.AUTH_SECRET });
   if (req.nextUrl.pathname.includes("/cart")) {
     if (!token) {
       return NextResponse.redirect(
-        new URL("/signin", req.url)
+        `${process.env.NEXTAUTH_URL_INTERNAL}/signin`,
       );
     } else {
       return NextResponse.next();
@@ -17,7 +17,7 @@ export async function proxy(req: NextRequest) {
     req.nextUrl.pathname.includes("/signup")
   ) {
     if (token) {
-      return NextResponse.redirect(new URL("/", req.url));
+      return NextResponse.redirect(`${process.env.NEXTAUTH_URL_INTERNAL}/`);
     } else {
       return NextResponse.next();
     }
