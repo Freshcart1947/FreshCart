@@ -4,17 +4,22 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React, { useState } from "react";
 import {
+  FaAddressBook,
+  FaBoxOpen,
   FaEnvelope,
   FaGift,
+  FaHeart,
   FaPhone,
   FaRegUser,
   FaRegUserCircle,
   FaTruck,
   FaUser,
+  FaUserCircle,
   FaUserPlus,
 } from "react-icons/fa";
-import { FaCartShopping, FaRegHeart } from "react-icons/fa6";
+import { FaCartShopping, FaGear, FaRegHeart } from "react-icons/fa6";
 import { FiX } from "react-icons/fi";
+import { HiOutlineUser } from "react-icons/hi";
 import { ImExit } from "react-icons/im";
 import { IoSearch } from "react-icons/io5";
 import { LuUserRound } from "react-icons/lu";
@@ -236,7 +241,10 @@ export default function Navbar() {
                 ) : (
                   <div className="flex items-center gap-4">
                     {/* User Profile Info */}
-                    <Link href={"/profile"} className="flex items-center gap-2 px-3 py-1 text-gray-600 hover:text-primary-600">
+                    <Link
+                      href={"/profile"}
+                      className="flex items-center gap-2 px-3 py-1 text-gray-600 hover:text-primary-600"
+                    >
                       <FaUser />
                       <span className="font-medium">{data?.user?.name}</span>
                     </Link>
@@ -346,133 +354,83 @@ export default function Navbar() {
                       />
                     </button>
                   )}
-
+                  {/* Drop Down Menu */}
                   <div
-                    className={` ${infoMenu ? "" : "hidden"} absolute right-0 top-full mt-2 w-64 bg-white border border-gray-100 rounded-2xl shadow-xl transition-all duration-200 origin-top-right opacity-100 scale-100 visible`}
+                    className={` ${infoMenu ? "opacity-100 scale-100 visible" : "opacity-0 scale-95 invisible"} 
+  absolute right-0 top-full mt-2 w-64 bg-white border border-gray-100 rounded-2xl shadow-xl transition-all duration-200 origin-top-right z-50`}
                   >
+                    {/* 1. User Profile Header */}
                     <div className="p-4 border-b border-gray-100">
                       <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-full bg-primary-100 flex items-center justify-center">
-                          <svg
-                            data-prefix="far"
-                            data-icon="circle-user"
-                            className="svg-inline--fa fa-circle-user text-xl text-primary-600"
-                            role="img"
-                            viewBox="0 0 512 512"
-                            aria-hidden="true"
-                          >
-                            <path
-                              fill="currentColor"
-                              d="M406.5 399.6C387.4 352.9 341.5 320 288 320l-64 0c-53.5 0-99.4 32.9-118.5 79.6-35.6-37.3-57.5-87.9-57.5-143.6 0-114.9 93.1-208 208-208s208 93.1 208 208c0 55.7-21.9 106.2-57.5 143.6zm-40.1 32.7C334.4 452.4 296.6 464 256 464s-78.4-11.6-110.5-31.7c7.3-36.7 39.7-64.3 78.5-64.3l64 0c38.8 0 71.2 27.6 78.5 64.3zM256 512a256 256 0 1 0 0-512 256 256 0 1 0 0 512zm0-272a40 40 0 1 1 0-80 40 40 0 1 1 0 80zm-88-40a88 88 0 1 0 176 0 88 88 0 1 0 -176 0z"
-                            />
-                          </svg>
+                        <div className="w-10 h-10 rounded-full bg-primary-50 flex items-center justify-center shrink-0 text-primary-600">
+                          <FaUserCircle size={32} />
                         </div>
                         <div className="min-w-0">
-                          <p className="text-sm font-semibold text-gray-800 truncate">
-                            {data?.user?.name}
+                          <p className="text-sm font-bold text-gray-800 truncate leading-tight">
+                            {data?.user?.name || "Username"}
                           </p>
-                          <p className="text-xs text-gray-400 truncate" />
+                          <p className="text-[11px] text-gray-400 truncate mt-0.5">
+                            {data?.user?.email || "user@example.com"}
+                          </p>
                         </div>
                       </div>
                     </div>
-                    <div className="py-2">
-                      <Link
-                        className="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-600 hover:text-primary-600 hover:bg-primary-50 transition-colors"
-                        href="/profile"
-                      >
-                        <svg
-                          data-prefix="far"
-                          data-icon="user"
-                          className="svg-inline--fa fa-user w-4 text-gray-400"
-                          role="img"
-                          viewBox="0 0 448 512"
-                          aria-hidden="true"
+
+                    {/* 2. Navigation Links */}
+                    <div className="py-2 px-2">
+                      {[
+                        {
+                          href: "/profile",
+                          label: "My Profile",
+                          icon: <HiOutlineUser size={18} />,
+                        },
+                        {
+                          href: "/orders",
+                          label: "My Orders",
+                          icon: <FaBoxOpen size={18} />,
+                        },
+                        {
+                          href: "/wishlist",
+                          label: "My Wishlist",
+                          icon: <FaHeart size={18} />,
+                        },
+                        {
+                          href: "/profile/addresses",
+                          label: "Addresses",
+                          icon: <FaAddressBook size={18} />,
+                        },
+                        {
+                          href: "/profile/settings",
+                          label: "Settings",
+                          icon: <FaGear size={18} />,
+                        },
+                      ].map((item, index) => (
+                        <Link
+                          key={index}
+                          href={item.href}
+                          className="flex items-center gap-3 px-3 py-2 text-sm text-gray-600 hover:text-primary-600 hover:bg-primary-50 rounded-lg transition-all group"
                         >
-                          <path
-                            fill="currentColor"
-                            d="M144 128a80 80 0 1 1 160 0 80 80 0 1 1 -160 0zm208 0a128 128 0 1 0 -256 0 128 128 0 1 0 256 0zM48 480c0-70.7 57.3-128 128-128l96 0c70.7 0 128 57.3 128 128l0 8c0 13.3 10.7 24 24 24s24-10.7 24-24l0-8c0-97.2-78.8-176-176-176l-96 0C78.8 304 0 382.8 0 480l0 8c0 13.3 10.7 24 24 24s24-10.7 24-24l0-8z"
-                          />
-                        </svg>
-                        My Profile
-                      </Link>
-                      <Link
-                        className="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-600 hover:text-primary-600 hover:bg-primary-50 transition-colors"
-                        href="/orders"
-                      >
-                        <svg
-                          data-prefix="fas"
-                          data-icon="box-open"
-                          className="svg-inline--fa fa-box-open w-4 text-gray-400"
-                          role="img"
-                          viewBox="0 0 640 512"
-                          aria-hidden="true"
-                        >
-                          <path
-                            fill="currentColor"
-                            d="M560.3 237.2c10.4 11.8 28.3 14.4 41.8 5.5 14.7-9.8 18.7-29.7 8.9-44.4l-48-72c-2.8-4.2-6.6-7.7-11.1-10.2L351.4 4.7c-19.3-10.7-42.8-10.7-62.2 0L88.8 116c-5.4 3-9.7 7.4-12.6 12.8L27.7 218.7c-12.6 23.4-3.8 52.5 19.6 65.1l33 17.7 0 53.3c0 23 12.4 44.3 32.4 55.7l176 99.7c19.6 11.1 43.5 11.1 63.1 0l176-99.7c20.1-11.4 32.4-32.6 32.4-55.7l0-117.5zm-240-9.8L170.2 144 320.3 60.6 470.4 144 320.3 227.4zm-41.5 50.2l-21.3 46.2-165.8-88.8 25.4-47.2 161.7 89.8z"
-                          />
-                        </svg>
-                        My Orders
-                      </Link>
-                      <Link
-                        className="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-600 hover:text-primary-600 hover:bg-primary-50 transition-colors"
-                        href="/wishlist"
-                      >
-                        <svg
-                          data-prefix="far"
-                          data-icon="heart"
-                          className="svg-inline--fa fa-heart w-4 text-gray-400"
-                          role="img"
-                          viewBox="0 0 512 512"
-                          aria-hidden="true"
-                        >
-                          <path
-                            fill="currentColor"
-                            d="M378.9 80c-27.3 0-53 13.1-69 35.2l-34.4 47.6c-4.5 6.2-11.7 9.9-19.4 9.9s-14.9-3.7-19.4-9.9l-34.4-47.6c-16-22.1-41.7-35.2-69-35.2-47 0-85.1 38.1-85.1 85.1 0 49.9 32 98.4 68.1 142.3 41.1 50 91.4 94 125.9 120.3 3.2 2.4 7.9 4.2 14 4.2s10.8-1.8 14-4.2c34.5-26.3 84.8-70.4 125.9-120.3 36.2-43.9 68.1-92.4 68.1-142.3 0-47-38.1-85.1-85.1-85.1zM271 87.1c25-34.6 65.2-55.1 107.9-55.1 73.5 0 133.1 59.6 133.1 133.1 0 68.6-42.9 128.9-79.1 172.8-44.1 53.6-97.3 100.1-133.8 127.9-12.3 9.4-27.5 14.1-43.1 14.1s-30.8-4.7-43.1-14.1C176.4 438 123.2 391.5 79.1 338 42.9 294.1 0 233.7 0 165.1 0 91.6 59.6 32 133.1 32 175.8 32 216 52.5 241 87.1l15 20.7 15-20.7z"
-                          />
-                        </svg>
-                        My Wishlist
-                      </Link>
-                      <Link
-                        className="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-600 hover:text-primary-600 hover:bg-primary-50 transition-colors"
-                        href="/profile/addresses"
-                      >
-                        <svg
-                          data-prefix="far"
-                          data-icon="address-book"
-                          className="svg-inline--fa fa-address-book w-4 text-gray-400"
-                          role="img"
-                          viewBox="0 0 512 512"
-                          aria-hidden="true"
-                        >
-                          <path
-                            fill="currentColor"
-                            d="M384 48c8.8 0 16 7.2 16 16l0 384c0 8.8-7.2 16-16 16L96 464c-8.8 0-16-7.2-16-16L80 64c0-8.8 7.2-16 16-16l288 0zM96 0C60.7 0 32 28.7 32 64l0 384c0 35.3 28.7 64 64 64l288 0c35.3 0 64-28.7 64-64l0-384c0-35.3-28.7-64-64-64L96 0zM240 248a56 56 0 1 0 0-112 56 56 0 1 0 0 112zm-32 40c-44.2 0-80 35.8-80 80 0 8.8 7.2 16 16 16l192 0c8.8 0 16-7.2 16-16 0-44.2-35.8-80-80-80l-64 0zM512 80c0-8.8-7.2-16-16-16s-16 7.2-16 16l0 64c0 8.8 7.2 16 16 16s16-7.2 16-16l0-64zM496 192c-8.8 0-16 7.2-16 16l0 64c0 8.8 7.2 16 16 16s16-7.2 16-16l0-64c0-8.8-7.2-16-16-16zm16 144c0-8.8-7.2-16-16-16s-16 7.2-16 16l0 64c0 8.8 7.2 16 16 16s16-7.2 16-16l0-64z"
-                          />
-                        </svg>
-                        Addresses
-                      </Link>
-                      <Link
-                        className="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-600 hover:text-primary-600 hover:bg-primary-50 transition-colors"
-                        href="/profile/settings"
-                      >
-                        <svg
-                          data-prefix="fas"
-                          data-icon="gear"
-                          className="svg-inline--fa fa-gear w-4 text-gray-400"
-                          role="img"
-                          viewBox="0 0 512 512"
-                          aria-hidden="true"
-                        >
-                          <path
-                            fill="currentColor"
-                            d="M195.1 9.5C198.1-5.3 211.2-16 226.4-16l59.8 0c15.2 0 28.3 10.7 31.3 25.5L332 79.5c14.1 6 27.3 13.7 39.3 22.8l67.8-22.5c14.4-4.8 30.2 1.2 37.8 14.4l29.9 51.8c7.6 13.2 4.9 29.8-6.5 39.9L447 233.3c.9 7.4 1.3 15 1.3 22.7s-.5 15.3-1.3 22.7l53.4 47.5c11.4 10.1 14 26.8 6.5 39.9l-29.9 51.8c-7.6 13.1-23.4 19.2-37.8 14.4l-67.8-22.5c-12.1 9.1-25.3 16.7-39.3 22.8l-14.4 69.9c-3.1 14.9-16.2 25.5-31.3 25.5l-59.8 0c-15.2 0-28.3-10.7-31.3-25.5l-14.4-69.9c-14.1-6-27.2-13.7-39.3-22.8L73.5 432.3c-14.4 4.8-30.2-1.2-37.8-14.4L5.8 366.1c-7.6-13.2-4.9-29.8 6.5-39.9l53.4-47.5c-.9-7.4-1.3-15-1.3-22.7s.5-15.3 1.3-22.7L12.3 185.8c-11.4-10.1-14-26.8-6.5-39.9L35.7 94.1c7.6-13.2 23.4-19.2 37.8-14.4l67.8 22.5c12.1-9.1 25.3-16.7 39.3-22.8L195.1 9.5zM256.3 336a80 80 0 1 0 -.6-160 80 80 0 1 0 .6 160z"
-                          />
-                        </svg>
-                        Settings
-                      </Link>
+                          <span className="text-gray-400 group-hover:text-primary-600 transition-colors">
+                            {item.icon}
+                          </span>
+                          <span className="font-medium">{item.label}</span>
+                        </Link>
+                      ))}
                     </div>
-                    <div className="border-t border-gray-100 py-2"></div>
+
+                    {/* 3. Sign Out Action */}
+                    <div className="  p-2 border-t border-gray-100">
+                      <button
+                        onClick={() => handleSignout()}
+                        className=" cursor-pointer flex items-center gap-3 px-3 py-2.5 text-sm text-red-600 hover:bg-red-50 w-full rounded-lg transition-all font-bold group"
+                      >
+                        <ImExit
+                          size={18}
+                          className="group-hover:-translate-x-1 transition-transform"
+                        />
+                        Sign Out
+                      </button>
+                    </div>
                   </div>
                 </div>
                 {status === "unauthenticated" && (
