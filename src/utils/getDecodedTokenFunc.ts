@@ -1,15 +1,27 @@
-'use server'
+'use server';
+
 import { decode } from "next-auth/jwt";
 import { cookies } from "next/headers";
 
 export async function getDecodedTokenFunc() {
-  const cookie = await cookies();
-    const token =
-    cookie.get("__Secure-next-auth.session-token")?.value ||
-    cookie.get("next-auth.session-token")?.value;
+  const cookieStore = await cookies();
+
+  console.log("ALL COOKIES:", cookieStore.getAll());
+
+  const token =
+    cookieStore.get("__Secure-next-auth.session-token")?.value ||
+    cookieStore.get("next-auth.session-token")?.value;
+
+  console.log("TOKEN:", token);
+
+  if (!token) return null;
+
   const decodedCookie = await decode({
     secret: process.env.AUTH_SECRET!,
     token,
   });
-  return decodedCookie?.userToken
+
+  console.log("DECODED:", decodedCookie);
+
+  return decodedCookie?.userToken;
 }
