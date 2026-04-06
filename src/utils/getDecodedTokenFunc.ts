@@ -6,9 +6,23 @@ import { cookies } from "next/headers";
 export async function getDecodedTokenFunc() {
   const cookieStore = await cookies();
 
-  const token =
-    cookieStore.get("__Secure-next-auth.session-token")?.value ||
-    cookieStore.get("next-auth.session-token")?.value;
+  const cookieName =
+    process.env.NODE_ENV === "production"
+      ? "__Secure-next-auth.session-token"
+      : "next-auth.session-token";
+
+  // Vercel بيقسم الـ cookie لـ chunks لما يكون كبير (.0, .1, ...)
+  // فبنجمعهم مع بعض لو الـ cookie مش موجود مباشرة
+  let token = cookieStore.get(cookieName)?.value;
+
+  if (!token) {
+    let chunk = "";
+    let i = 0;
+    while ((chunk = cookieStore.get(`${cookieName}.${i}`)?.value ?? "")) {
+      token = (token ?? "") + chunk;
+      i++;
+    }
+  }
 
   console.log("TOKEN:", token);
 
@@ -19,7 +33,7 @@ export async function getDecodedTokenFunc() {
     token,
   });
 
-  console.log( "Decoded" ,decodedCookie?.userToken);
+  console.log("Decoded", decodedCookie?.userToken);
 
   return decodedCookie?.userToken;
 }
