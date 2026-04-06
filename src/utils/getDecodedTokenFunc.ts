@@ -1,4 +1,4 @@
-'use server';
+"use server";
 
 import { decode } from "next-auth/jwt";
 import { cookies } from "next/headers";
@@ -18,6 +18,8 @@ export async function getDecodedTokenFunc() {
     secret: process.env.AUTH_SECRET!,
     token,
   });
+
+  console.log( "Decoded" ,decodedCookie?.userToken);
 
   return decodedCookie?.userToken;
 }
