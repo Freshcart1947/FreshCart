@@ -17,6 +17,8 @@ export async function getCart() {
       },
     });
     const data: CartResponse = await respons.json();
+    console.log(token);
+    
 
     return data;
   } catch {
