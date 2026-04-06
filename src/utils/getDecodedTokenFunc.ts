@@ -12,9 +12,12 @@ export async function getDecodedTokenFunc() {
 
   if (!token) return null;
 
+  const cookieName = process.env.NODE_ENV === "production" ? "__Secure-next-auth.session-token" : "next-auth.session-token";
+  
   const decodedCookie = await decode({
     secret: process.env.AUTH_SECRET!,
     token,
+    salt: cookieName,
   });
 
   return decodedCookie?.userToken;
