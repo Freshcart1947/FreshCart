@@ -6,13 +6,9 @@ import { cookies } from "next/headers";
 export async function getDecodedTokenFunc() {
   const cookieStore = await cookies();
 
-  console.log("ALL COOKIES:", cookieStore.getAll());
-
   const token =
     cookieStore.get("__Secure-next-auth.session-token")?.value ||
     cookieStore.get("next-auth.session-token")?.value;
-
-  console.log("TOKEN:", token);
 
   if (!token) return null;
 
@@ -20,8 +16,6 @@ export async function getDecodedTokenFunc() {
     secret: process.env.AUTH_SECRET!,
     token,
   });
-
-  console.log("DECODED:", decodedCookie);
 
   return decodedCookie?.userToken;
 }

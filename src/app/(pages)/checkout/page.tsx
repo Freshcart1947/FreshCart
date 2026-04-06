@@ -16,7 +16,7 @@ import {
   FaBagShopping,
   FaTruck,
   FaBox,
-} from "react-icons/fa6"; // تأكد من تثبيت react-icons
+} from "react-icons/fa6";
 import CheckoutOrderSummary from "@/components/CheckoutOrderSummary/CheckoutOrderSummary";
 
 export default function Checkout() {
