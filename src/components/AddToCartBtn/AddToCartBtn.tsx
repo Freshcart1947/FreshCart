@@ -33,9 +33,6 @@ const {mutate , data , isPending} =  useCartMutation(addToCart , [['cart']], 'Pr
       {isPending ? (
         <>
           <ImSpinner2 className="animate-spin text-xl" />
-          <span className="text-sm font-bold uppercase tracking-wide">
-            Adding...
-          </span>
         </>
       ) : (
         children

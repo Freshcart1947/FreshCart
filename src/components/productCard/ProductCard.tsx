@@ -4,100 +4,92 @@ import Image from "next/image";
 import Link from "next/link";
 import { FaRegHeart, FaStar, FaEye } from "react-icons/fa";
 import { HiPlus } from "react-icons/hi";
+import { LuRefreshCw } from "react-icons/lu"; // أيقونة الـ Compare/Rotate اللي في الـ HTML
 import AddToCartBtn from "../AddToCartBtn/AddToCartBtn";
 
 export default function ProductCard({ product }: { product: Product }) {
   return (
-    <div className="group relative bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-2xl hover:shadow-emerald-500/10 transition-all duration-500 flex flex-col h-full">
-      {/* Image Container & Badges */}
-      <div className="relative aspect-square overflow-hidden rounded-t-2xl bg-gray-50/50 p-6">
-        {/* Discount Badge */}
-        {product.priceAfterDiscount && (
-          <div className="absolute top-3 left-3 z-10 bg-red-500 text-white text-[10px] font-bold px-2.5 py-1 rounded-full shadow-sm">
-            SAVE{" "}
-            {Math.round(
-              ((product.price - product.priceAfterDiscount) / product.price) *
-                100,
-            )}
-            %
-          </div>
-        )}
-
-        <div className="absolute right-3 top-3 flex flex-col gap-2 transition-all duration-300 z-10">
-          <button className="p-3 bg-white hover:bg-red-50 text-gray-600 hover:text-red-500 rounded-xl shadow-lg border border-gray-50 transition-colors cursor-pointer">
-            <FaRegHeart size={18} />
-          </button>
-          <Link
-            href={`/products/${product._id}`}
-            className="p-3 bg-white hover:bg-emerald-50 text-gray-600 hover:text-emerald-600 rounded-xl shadow-lg border border-gray-50 transition-colors cursor-pointer"
-          >
-            <FaEye size={18} />
-          </Link>
-        </div>
-
-        <Link href={`/products/${product._id}`} className="block h-full">
+    <div className="group bg-white border border-gray-200 rounded-lg overflow-hidden flex flex-col h-full hover:shadow-lg transition-shadow duration-300">
+      {/* Image Container */}
+      <div className="relative">
+        <Link href={`/products/${product._id}`} className="block">
           <Image
             src={product?.imageCover}
             alt={product?.title}
             width={400}
             height={400}
-            className="w-full h-full object-contain mix-blend-multiply transition-transform duration-700 group-hover:scale-110"
+            className="w-full h-60 object-contain bg-white transition-transform duration-500 group-hover:scale-105"
           />
         </Link>
+
+        {/* Action Buttons (Top Right) */}
+        <div className="absolute top-3 right-3 flex flex-col space-y-2">
+          <button className="bg-white h-8 w-8 rounded-full flex items-center justify-center transition shadow-sm text-gray-600 hover:text-red-500 cursor-pointer">
+            <FaRegHeart size={16} />
+          </button>
+          <button className="bg-white h-8 w-8 rounded-full flex items-center justify-center text-gray-600 hover:text-primary-600 shadow-sm cursor-pointer">
+            <LuRefreshCw size={16} />
+          </button>
+          <Link
+            href={`/products/${product._id}`}
+            className="bg-white h-8 w-8 rounded-full flex items-center justify-center text-gray-600 hover:text-primary-600 shadow-sm"
+          >
+            <FaEye size={16} />
+          </Link>
+        </div>
       </div>
 
       {/* Content Section */}
-      <div className="p-5 flex flex-col grow">
-        <div className="mb-auto">
-          <div className="flex items-center justify-between mb-2">
-            <span className="text-[11px] font-bold text-primary-600 uppercase tracking-widest">
-              {product?.category?.name}
+      <div className="p-4 flex flex-col flex-1">
+        <div className="text-xs text-gray-500 mb-1">
+          {product?.category?.name || "Category"}
+        </div>
+
+        <h3 className="font-medium mb-1 cursor-pointer" title={product.title}>
+          <Link
+            href={`/products/${product._id}`}
+            className="line-clamp-2 hover:text-primary-600 transition-colors"
+          >
+            {product.title}
+          </Link>
+        </h3>
+
+        {/* Ratings */}
+        <div className="flex items-center mb-2">
+          <div className="flex text-amber-400 mr-2">
+            {/* دي بتعمل Stars بناءً على الـ rating */}
+            {[...Array(5)].map((_, i) => (
+              <FaStar
+                key={i}
+                className={
+                  i < Math.floor(product.ratingsAverage)
+                    ? "text-yellow-400"
+                    : "text-gray-200"
+                }
+                size={14}
+              />
+            ))}
+          </div>
+          <span className="text-xs text-gray-500">
+            {product.ratingsAverage} ({product.ratingsQuantity || 0})
+          </span>
+        </div>
+
+        {/* Price & Add to Cart (Bottom Row) */}
+        <div className="flex items-center justify-between mt-auto">
+          <div>
+            <span className="text-lg font-bold text-gray-800">
+              {product.priceAfterDiscount || product.price} EGP
             </span>
-            <div className="flex items-center gap-1 bg-yellow-50 px-2 py-0.5 rounded-md">
-              <FaStar className="text-yellow-500 text-[10px]" />
-              <span className="text-[11px] font-bold text-yellow-700">
-                {product?.ratingsAverage}
-              </span>
-            </div>
           </div>
 
-          <Link href={`/products/${product._id}`}>
-            <h3 className="text-gray-800 font-semibold text-base line-clamp-1 hover:text-emerald-600 transition-colors mb-2">
-              {product?.title}
-            </h3>
-          </Link>
+          <AddToCartBtn
+            id={product._id}
+            className=" cursor-pointer h-10 w-10 rounded-full flex items-center justify-center transition bg-primary-600 text-white hover:bg-primary-700 active:scale-90"
+          >
+            <HiPlus size={20} />
+          </AddToCartBtn>
         </div>
-
-        {/* Pricing */}
-        <div className="flex  items-center gap-2 mt-4">
-          {product.priceAfterDiscount ? (
-            <>
-              <span className="text-xl font-bold text-gray-900 leading-none">
-                {product?.priceAfterDiscount}{" "}
-                <small className="text-xs font-medium uppercase">Egp</small>
-              </span>
-              <span className="text-sm text-gray-400 line-through mb-0.5">
-                {product?.price} Egp
-              </span>
-            </>
-          ) : (
-            <span className="text-xl font-bold text-gray-900 leading-none">
-              {product?.price}{" "}
-              <small className="text-xs font-medium uppercase">Egp</small>
-            </span>
-          )}
-        </div>
-
-        {/* Add to Cart Button (Back to Emerald) */}
-        <AddToCartBtn
-          id={product._id}
-          className="mt-5 w-full bg-primary-600 hover:bg-primary-700 text-white py-3.5 rounded-xl flex items-center justify-center gap-2.5 transition-all duration-300 shadow-lg shadow-emerald-100 hover:shadow-emerald-200 cursor-pointer active:scale-95"
-        >
-          <HiPlus className="text-xl  transition-transform duration-300" />
-          <span className="text-sm font-bold uppercase tracking-wide">
-            Add to Cart
-          </span>
-        </AddToCartBtn>
       </div>
     </div>
   );

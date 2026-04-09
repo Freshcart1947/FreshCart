@@ -42,6 +42,8 @@ export const nextAuthConfig: NextAuthOptions = {
           },
         );
         const data = await response.json();
+        console.log(data.user._id , "user response");
+        
         if (data.message === "success") {
           return {
             id: data.user.email,

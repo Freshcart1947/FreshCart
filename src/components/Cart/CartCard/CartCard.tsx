@@ -143,8 +143,15 @@ export default function CartCard({ product }: { product: CartProduct }) {
                   </p>
                 </div>
 
-                <button className="sm:hidden h-11 w-11 rounded-2xl bg-red-50 text-red-500 flex items-center justify-center border border-red-100 active:scale-95 transition-transform">
-                  <MdDeleteOutline size={24} />
+                <button
+                  onClick={handleDeleteItem}
+                  className="sm:hidden h-11 w-11 rounded-2xl bg-red-50 text-red-500 flex items-center justify-center border border-red-100 active:scale-95 transition-transform"
+                >
+                  {isPending ? (
+                    <ImSpinner2 className="animate-spin mx-auto" />
+                  ) : (
+                    <MdDeleteOutline size={22} />
+                  )}
                 </button>
               </div>
             </div>
