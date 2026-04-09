@@ -1,9 +1,8 @@
 "use client";
 import { addToCart } from "@/services/cart/addToCart/addToCart";
-import React, { ReactNode, useState } from "react";
-import { toast } from "sonner";
+import React, { ReactNode} from "react";
 import { ImSpinner2 } from "react-icons/im";
-import { updateCart } from "@/services/cart/updateCart/updateCart";
+import useCartMutation from "@/hooks/useCartMutation/useCartMutation";
 
 interface AddToCartBtnProps {
   children?: ReactNode;
@@ -18,34 +17,20 @@ export default function AddToCartBtn({
   id,
   quantity = 0,
 }: AddToCartBtnProps) {
-  const [loading, setLoading] = useState(false);
+
+const {mutate , data , isPending} =  useCartMutation(addToCart , [['cart']], 'Product Added To Cart Successfully' , 'Falied To Add Product To Cart' )
 
   async function handleAddToCart() {
-    try {
-      setLoading(true);
-      const result = await addToCart(id);
-      if (result) {
-        if (quantity) {
-          updateCart(id, quantity);
-        }
-        toast.success("Product added to cart successfully");
-      } else {
-        toast.error("Failed to add product to cart");
-      }
-    } catch {
-      toast.error("Something went wrong");
-    } finally {
-      setLoading(false);
-    }
+    mutate(id)
   }
 
   return (
     <button
       onClick={handleAddToCart}
-      disabled={loading}
-      className={`${className} ${loading ? "opacity-80 cursor-not-allowed" : ""}`}
+      disabled={isPending}
+      className={`${className} ${isPending ? "opacity-80 cursor-not-allowed" : ""}`}
     >
-      {loading ? (
+      {isPending ? (
         <>
           <ImSpinner2 className="animate-spin text-xl" />
           <span className="text-sm font-bold uppercase tracking-wide">

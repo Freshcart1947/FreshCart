@@ -5,6 +5,9 @@ import Navbar from "@/components/navbar/Navbar";
 import Footer from "@/components/footer/Footer";
 import { Toaster } from "sonner";
 import SessionProviderServer from "@/components/SessionProviderServer/SessionProviderServer";
+import TanstackProvider from "@/providers/TanstackProvider/Tanstack.Provider";
+
+
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -36,10 +39,12 @@ export default function RootLayout({
     <html lang="en" className={`${exo.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col ">
         <SessionProviderServer>
+          <TanstackProvider>
           <Navbar />
           <main>{children}</main>
           <Footer />
-          <Toaster richColors position="top-right" />
+          <Toaster richColors position="top-left" />
+          </TanstackProvider>
         </SessionProviderServer>
       </body>
     </html>

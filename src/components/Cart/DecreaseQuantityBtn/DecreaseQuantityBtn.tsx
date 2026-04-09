@@ -1,4 +1,5 @@
 "use client";
+import useCartMutation from "@/hooks/useCartMutation/useCartMutation";
 import { updateCart } from "@/services/cart/updateCart/updateCart";
 import React, { ReactNode, useState } from "react";
 import { ImSpinner2 } from "react-icons/im"; // عشان لو حبيت تظهر Spinner
@@ -19,18 +20,15 @@ export default function DecreaseQuantityBtn({
   productId,
 }: DecreaseQuantityProps) {
 
-  const [loading, setLoading] = useState(false);
+  const { mutate, isPending } = useCartMutation(
+    ({ productId, count }: { productId: string; count: number }) =>
+      updateCart(productId, count),
+    [["cart"]]
+  );
 
   async function handleDecrease() {
     if (productId && count !== undefined && count > 1) {
-      try {
-        setLoading(true);
-        await updateCart(productId, count - 1);
-      } catch (err) {
-        console.error("Update Cart Error:", err);
-      } finally {
-        setLoading(false);
-      }
+      mutate({ productId, count: count - 1 });
     }
   }
 
@@ -38,9 +36,9 @@ export default function DecreaseQuantityBtn({
     <button
       onClick={handleDecrease}
       className={className}
-      disabled={disabled || loading || count === 1}
+      disabled={disabled || isPending || count === 1}
     >
-      {loading ? <ImSpinner2 className="animate-spin" /> : children}
+      {isPending ? <ImSpinner2 className="animate-spin" /> : children}
     </button>
   );
 }

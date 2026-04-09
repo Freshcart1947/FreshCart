@@ -1,8 +1,11 @@
 "use client";
+import useCart from "@/hooks/useCart/useCart";
+import { CartResponse } from "@/interfaces/cart.interface";
+import { getCart } from "@/services/cart/getCart/getCart";
 import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   FaAddressBook,
   FaBoxOpen,
@@ -182,6 +185,12 @@ export default function Navbar() {
     };
   }, [menu]);
 
+  // ===================CartCount============================
+
+  const { data: res } = useCart<CartResponse>(getCart, ['cart']);
+
+  const numOfCartItems = res?.numOfCartItems || 0;
+
   return (
     <>
       <div className="hidden lg:block text-sm border-b border-gray-100 bg-white">
@@ -351,6 +360,11 @@ export default function Navbar() {
                     className="group-hover:text-primary-600"
                     size={"23"}
                   />
+                  {numOfCartItems > 0 && (
+                    <span className="absolute top-1 right-1 bg-primary-600 text-white text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center border-2 border-white">
+                      {numOfCartItems}
+                    </span>
+                  )}
                 </Link>
                 <div className="relative">
                   {status === "authenticated" && (
@@ -484,15 +498,7 @@ export default function Navbar() {
         >
           {/* Header */}
           <div className="flex items-center justify-between p-4 border-b border-gray-100 bg-gray-50/50">
-            <img
-              alt="FreshCart"
-              loading="lazy"
-              width="160"
-              height="31"
-              className="h-8 w-auto"
-              style={{ color: "transparent" }}
-              src="/_next/static/media/freshcart-logo.49f1b44d.svg" // اتأكد من المسار ده عندك
-            />
+            {logo}
             <button
               onClick={() => setMenu(false)}
               className="w-9 h-9 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center transition-colors"
@@ -536,30 +542,30 @@ export default function Navbar() {
           {/* Navigation */}
           <nav className="p-4">
             <div className="space-y-1">
-              <a
+              <Link
                 href="/"
                 className="flex items-center gap-3 px-4 py-3 rounded-xl font-medium text-gray-700 hover:text-primary-600 hover:bg-primary-50 transition-colors"
               >
                 Home
-              </a>
-              <a
+              </Link>
+              <Link
                 href="/products"
                 className="flex items-center gap-3 px-4 py-3 rounded-xl font-medium text-gray-700 hover:text-primary-600 hover:bg-primary-50 transition-colors"
               >
                 Shop
-              </a>
-              <a
+              </Link>
+              <Link
                 href="/categories"
                 className="flex items-center gap-3 px-4 py-3 rounded-xl font-medium text-gray-700 hover:text-primary-600 hover:bg-primary-50 transition-colors"
               >
                 Categories
-              </a>
-              <a
+              </Link>
+              <Link
                 href="/brands"
                 className="flex items-center gap-3 px-4 py-3 rounded-xl font-medium text-gray-700 hover:text-primary-600 hover:bg-primary-50 transition-colors"
               >
                 Brands
-              </a>
+              </Link>
             </div>
           </nav>
 
@@ -567,7 +573,7 @@ export default function Navbar() {
 
           {/* Quick Actions (Wishlist & Cart) */}
           <div className="p-4 space-y-1">
-            <a
+            <Link
               href="/wishlist"
               className="flex items-center justify-between px-4 py-3 rounded-xl hover:bg-primary-50 transition-colors"
             >
@@ -589,9 +595,9 @@ export default function Navbar() {
                 </div>
                 <span className="font-medium text-gray-700">Wishlist</span>
               </div>
-            </a>
+            </Link>
 
-            <a
+            <Link
               href="/cart"
               className="flex items-center justify-between px-4 py-3 rounded-xl hover:bg-primary-50 transition-colors"
             >
@@ -608,16 +614,16 @@ export default function Navbar() {
                 <span className="font-medium text-gray-700">Cart</span>
               </div>
               <span className="bg-primary-600 text-white text-xs font-bold px-2.5 py-1 rounded-full">
-                2
+                {numOfCartItems}
               </span>
-            </a>
+            </Link>
           </div>
 
           <div className="mx-4 border-t border-gray-100"></div>
 
           {/* User Profile & Sign Out */}
           <div className="p-4 space-y-1">
-            <a
+            <Link
               href="/profile"
               className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-primary-50 transition-colors"
             >
@@ -631,7 +637,7 @@ export default function Navbar() {
                 </svg>
               </div>
               <span className="font-medium text-gray-700">abdalla diaa</span>
-            </a>
+            </Link>
 
             <button className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-red-50 transition-colors w-full text-left">
               <div className="w-9 h-9 rounded-full bg-red-50 flex items-center justify-center">
@@ -648,7 +654,7 @@ export default function Navbar() {
           </div>
 
           {/* Support Card */}
-          <a
+          <Link
             href="/contact"
             className="mx-4 mt-2 p-4 rounded-xl bg-gray-50 border border-gray-100 flex items-center gap-3 hover:bg-primary-50 transition-colors"
           >
@@ -667,7 +673,7 @@ export default function Navbar() {
               </div>
               <div className="text-sm text-primary-600">Contact Support</div>
             </div>
-          </a>
+          </Link>
         </aside>
       </div>
     </>

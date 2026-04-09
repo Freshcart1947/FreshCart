@@ -24,6 +24,7 @@ export async function deleteUserCart() {
 
     if(data.status === "success"){
       revalidatePath('/cart')
+      
     }
 
     return data;

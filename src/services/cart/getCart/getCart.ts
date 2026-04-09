@@ -5,6 +5,7 @@ import { getDecodedTokenFunc } from "@/utils/getDecodedTokenFunc";
 
 export async function getCart() {
   const token = await getDecodedTokenFunc();
+  
   if (!token) {
     throw new Error("unAuth");
   }
@@ -17,11 +18,8 @@ export async function getCart() {
       },
     });
     const data: CartResponse = await respons.json();
-    console.log(token);
-    
-
     return data;
   } catch {
-    throw new Error("get Cart Error")
+    throw new Error("get Cart Error");
   }
 }

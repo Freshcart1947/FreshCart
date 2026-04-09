@@ -5,7 +5,6 @@ import { getDecodedTokenFunc } from "@/utils/getDecodedTokenFunc";
 
 export async function addToCart(productId: string) {
   const token = await getDecodedTokenFunc();
-  console.log(token, "UserToken");
 
   if (!token) {
     throw new Error("unAuth");
@@ -23,7 +22,7 @@ export async function addToCart(productId: string) {
     const data: CartResponsAdd = await respons.json();
 
     if (data.status === "success") {
-      return true;
+      return data;
     } else {
       return false;
     }

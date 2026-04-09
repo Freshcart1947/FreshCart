@@ -10,22 +10,16 @@ import IncreaseQuantityBtn from "../IncreaseQuantityBtn/IncreaseQuantityBtn";
 import { deleteCartItem } from "@/services/cart/deleteCartItem/deleteCartItem";
 import { useState } from "react";
 import { ImSpinner2 } from "react-icons/im";
+import useCartMutation from "@/hooks/useCartMutation/useCartMutation";
 
 export default function CartCard({ product }: { product: CartProduct }) {
   const { count, price } = product;
   const { imageCover, title, category, quantity, _id, brand } = product.product;
 
-  const [deleteLoading, setDeleteLoading] = useState(false);
+  const { mutate, isPending } = useCartMutation(deleteCartItem, [["cart"]]);
 
-  async function handleDeleteItem() {
-    try {
-      setDeleteLoading(true);
-      await deleteCartItem(_id);
-    } catch (err) {
-      console.log(err);
-    } finally {
-      setDeleteLoading(false);
-    }
+  function handleDeleteItem() {
+    mutate(_id);
   }
 
   return (
@@ -87,7 +81,11 @@ export default function CartCard({ product }: { product: CartProduct }) {
                 onClick={handleDeleteItem}
                 className="hidden sm:flex cursor-pointer h-10 w-10 rounded-xl bg-gray-50 text-gray-400 hover:bg-red-50 hover:text-red-500 items-center justify-center transition-all duration-300 border border-transparent hover:border-red-100"
               >
-                {deleteLoading ? <ImSpinner2 className="animate-spin mx-auto" /> : <MdDeleteOutline size={22} />}
+                {isPending ? (
+                  <ImSpinner2 className="animate-spin mx-auto" />
+                ) : (
+                  <MdDeleteOutline size={22} />
+                )}
               </button>
             </div>
 

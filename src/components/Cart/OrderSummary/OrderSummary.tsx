@@ -1,4 +1,5 @@
-import React from "react";
+'use client'
+import React, { useContext } from "react";
 import {
   FaBagShopping,
   FaTruck,
@@ -7,6 +8,7 @@ import {
   FaShieldHalved,
 } from "react-icons/fa6";
 import Link from "next/link";
+
 
 interface OrderSummaryProps {
   subtotal: number;
@@ -26,8 +28,7 @@ export default function OrderSummary({
     (subtotal / FREE_SHIPPING_THRESHOLD) * 100,
     100,
   );
-
-  return (
+ return (
     <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden sticky top-24 shadow-sm">
       {/* Header */}
       <div className="bg-gradient-to-r from-primary-600 to-primary-700 px-6 py-5">
