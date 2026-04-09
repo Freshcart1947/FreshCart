@@ -187,7 +187,7 @@ export default function Navbar() {
 
   // ===================CartCount============================
 
-  const { data: res } = useCart<CartResponse>(getCart, ['cart']);
+  const { data: res } = useCart<CartResponse>(getCart, ["cart"]);
 
   const numOfCartItems = res?.numOfCartItems || 0;
 
@@ -478,7 +478,9 @@ export default function Navbar() {
           </div>
         </div>
       </header>
-
+{/* =========================================================================================================================== */}
+{/* ===================================================== MOBLIE ====================================================================== */}
+{/* =========================================================================================================================== */}
       <div
         className={`fixed inset-0 z-50 lg:hidden ${menu ? "visible" : "invisible pointer-events-none"}`}
       >
@@ -623,34 +625,50 @@ export default function Navbar() {
 
           {/* User Profile & Sign Out */}
           <div className="p-4 space-y-1">
-            <Link
-              href="/profile"
-              className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-primary-50 transition-colors"
-            >
-              <div className="w-9 h-9 rounded-full bg-gray-100 flex items-center justify-center">
-                <svg
-                  className="w-4 h-4 text-gray-500"
-                  fill="currentColor"
-                  viewBox="0 0 448 512"
+            {status === "authenticated" ? (
+              <>
+                <Link
+                  href="/profile"
+                  className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-primary-50 transition-colors group"
                 >
-                  <path d="M224 256c70.7 0 128-57.3 128-128S294.7 0 224 0 96 57.3 96 128s57.3 128 128 128zm89.6 32h-16.7c-22.2 10.2-46.9 16-72.9 16s-50.6-5.8-72.9-16h-16.7C102.1 288 0 390.1 0 512v0c0 13.3 10.7 24 24 24h400c13.3 0 24-10.7 24-24v0c0-121.9-102.1-224-224-224z" />
-                </svg>
-              </div>
-              <span className="font-medium text-gray-700">abdalla diaa</span>
-            </Link>
+                  <div className="w-9 h-9 rounded-full bg-gray-100 flex items-center justify-center shrink-0">
+                    <FaUserCircle
+                      className="text-gray-500 group-hover:text-primary-600 transition-colors"
+                      size={20}
+                    />
+                  </div>
+                  <div className="min-w-0">
+                    <p className="font-semibold text-gray-800 truncate leading-tight">
+                      {data?.user?.name || "User Name"}
+                    </p>
+                    <p className="text-[11px] text-gray-400 truncate">
+                      View Profile
+                    </p>
+                  </div>
+                </Link>
 
-            <button className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-red-50 transition-colors w-full text-left">
-              <div className="w-9 h-9 rounded-full bg-red-50 flex items-center justify-center">
-                <svg
-                  className="w-4 h-4 text-red-500"
-                  fill="currentColor"
-                  viewBox="0 0 512 512"
+                <button
+                  onClick={() => handleSignout()}
+                  className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-red-50 transition-colors w-full text-left group"
                 >
-                  <path d="M505 273c9.4-9.4 9.4-24.6 0-33.9L361 95c-6.9-6.9-17.2-8.9-26.2-5.2S320 102.3 320 112l0 80-112 0c-26.5 0-48 21.5-48 48l0 32c0 26.5 21.5 48 48 48l112 0 0 80c0 9.7 5.8 18.5 14.8 22.2s19.3 1.7 26.2-5.2L505 273zM160 96c17.7 0 32-14.3 32-32s-14.3-32-32-32L96 32C43 32 0 75 0 128L0 384c0 53 43 96 96 96l64 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-64 0c-17.7 0-32-14.3-32-32l0-256c0-17.7 14.3-32 32-32l64 0z" />
-                </svg>
-              </div>
-              <span className="font-medium text-red-600">Sign Out</span>
-            </button>
+                  <div className="w-9 h-9 rounded-full bg-red-50 flex items-center justify-center shrink-0">
+                    <ImExit
+                      className="text-red-500 group-hover:-translate-x-1 transition-transform"
+                      size={18}
+                    />
+                  </div>
+                  <span className="font-bold text-red-600">Sign Out</span>
+                </button>
+              </>
+            ) : (
+              <Link
+                href="/signin"
+                className="flex items-center gap-3 px-4 py-3 rounded-xl bg-primary-600 text-white hover:bg-primary-700 transition-all font-bold justify-center"
+              >
+                <LuUserRound size={18} />
+                <span>Sign In</span>
+              </Link>
+            )}
           </div>
 
           {/* Support Card */}

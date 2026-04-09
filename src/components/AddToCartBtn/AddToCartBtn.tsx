@@ -3,6 +3,7 @@ import { addToCart } from "@/services/cart/addToCart/addToCart";
 import React, { ReactNode} from "react";
 import { ImSpinner2 } from "react-icons/im";
 import useCartMutation from "@/hooks/useCartMutation/useCartMutation";
+import { updateCart } from "@/services/cart/updateCart/updateCart";
 
 interface AddToCartBtnProps {
   children?: ReactNode;
@@ -18,10 +19,21 @@ export default function AddToCartBtn({
   quantity = 0,
 }: AddToCartBtnProps) {
 
-const {mutate , data , isPending} =  useCartMutation(addToCart , [['cart']], 'Product Added To Cart Successfully' , 'Falied To Add Product To Cart' )
+  const { mutate, isPending } = useCartMutation(
+    async (productId: string) => {
+      const res = await addToCart(productId);
+      if (res && quantity > 1) {
+        await updateCart(productId, quantity);
+      }
+      return res;
+    },
+    [["cart"]],
+    "Product Added To Cart Successfully",
+    "Login First"
+  );
 
   async function handleAddToCart() {
-    mutate(id)
+    mutate(id);
   }
 
   return (

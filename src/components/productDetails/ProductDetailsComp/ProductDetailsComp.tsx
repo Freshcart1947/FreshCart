@@ -33,7 +33,7 @@ export default function ProductDetailsComp({
   return (
     <>
       <section id="product-detail" className="my-10">
-        <div className="relative flex flex-col lg:flex-row gap-10 items-start">
+        <div className="relative container flex flex-col lg:flex-row gap-10 items-start">
           <ProductDetailsImages product={product} />
 
           <div className="lg:w-2/3 w-full space-y-6">

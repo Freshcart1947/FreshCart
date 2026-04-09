@@ -20,13 +20,16 @@ export async function addToCart(productId: string) {
       },
     });
     const data: CartResponsAdd = await respons.json();
-
+    console.log(data);
+    
     if (data.status === "success") {
       return data;
     } else {
       return false;
     }
-  } catch {
+  } catch (err) {
+    console.log(err , 'errorr from add to cart');
+    
     return false;
   }
 }

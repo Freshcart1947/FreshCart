@@ -14,7 +14,6 @@ export default function QuantityCounter({
   setInputValue,
   inputValue,
 }: Props) {
-  // تعريف متغير للسهولة وللحماية لو الداتا لسه مجتش
   const stock = product.data?.quantity ?? 0;
   const isOutOfStock = stock <= 0;
 

@@ -101,7 +101,7 @@ export default function ProductCard({ product }: { product: Product }) {
 
           <AddToCartBtn
             id={product._id}
-            className="h-10 w-10 rounded-full flex items-center justify-center transition bg-primary-600 text-white hover:bg-primary-700 active:scale-90 shadow-md shadow-primary-600/20"
+            className=" cursor-pointer h-10 w-10 rounded-full flex items-center justify-center transition bg-primary-600 text-white hover:bg-primary-700 active:scale-90 shadow-md shadow-primary-600/20"
           >
             <HiPlus size={18} />
           </AddToCartBtn>
