@@ -4,17 +4,19 @@ interface PageDescriptionProps {
   icon: React.ReactNode;
   page: string;
   description: string;
+  color?: string;
 }
 
 export default function PageDescription({
   icon,
   page,
   description,
+  color = 'from-primary-600 via-primary-500 to-primary-400'
 }: PageDescriptionProps) {
     
   return (
     <>
-      <div className="bg-gradient-to-br from-primary-600 via-primary-500 to-primary-400 text-white">
+      <div className={`bg-linear-to-br ${color}  text-white`}>
         <div className="container px-4 py-10 sm:py-14">
           <div className="flex items-center gap-5">
 

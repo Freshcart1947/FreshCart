@@ -4,8 +4,9 @@ import { CartResponse } from "@/interfaces/cart.interface";
 import { getCart } from "@/services/cart/getCart/getCart";
 import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import React, { useContext, useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 import {
   FaAddressBook,
   FaBoxOpen,
@@ -191,6 +192,25 @@ export default function Navbar() {
 
   const numOfCartItems = res?.numOfCartItems || 0;
 
+  // ====================Search==============================
+  const router = useRouter();
+
+  const { register, handleSubmit, reset, watch } = useForm({
+    defaultValues: {
+      search: "",
+    },
+  });
+
+  function handleSearch(values: { search: string }) {
+    if (values.search.trim()) {
+      console.log(values);
+      router.push(`/search?search=${encodeURIComponent(values.search.trim())}`);
+      reset();
+    }
+  }
+
+  const searchTerm = watch("search");
+
   return (
     <>
       <div className="hidden lg:block text-sm border-b border-gray-100 bg-white">
@@ -292,14 +312,21 @@ export default function Navbar() {
               <Link href="/" className="shrink-0">
                 {logo}
               </Link>
-              <form className="hidden lg:flex flex-1 max-w-2xl">
+              <form
+                onSubmit={handleSubmit(handleSearch)}
+                className="hidden lg:flex flex-1 max-w-2xl"
+              >
                 <div className="relative w-full">
                   <input
+                    {...register("search")}
                     type="text"
                     className="w-full px-5 py-3 pr-12 rounded-full border border-gray-200 bg-gray-50/50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 transition-all text-sm"
                     placeholder="Search for products, brands and more..."
                   />
-                  <button className=" cursor-pointer absolute right-1.5 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-primary-600 text-white flex items-center justify-center hover:bg-primary-700 transition-colors">
+                  <button
+                    type="submit"
+                    className=" cursor-pointer absolute right-1.5 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-primary-600 text-white flex items-center justify-center hover:bg-primary-700 transition-colors"
+                  >
                     <IoSearch />
                   </button>
                 </div>
@@ -478,9 +505,9 @@ export default function Navbar() {
           </div>
         </div>
       </header>
-{/* =========================================================================================================================== */}
-{/* ===================================================== MOBLIE ====================================================================== */}
-{/* =========================================================================================================================== */}
+      {/* =========================================================================================================================== */}
+      {/* ===================================================== MOBLIE ====================================================================== */}
+      {/* =========================================================================================================================== */}
       <div
         className={`fixed inset-0 z-50 lg:hidden ${menu ? "visible" : "invisible pointer-events-none"}`}
       >

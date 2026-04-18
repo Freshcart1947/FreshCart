@@ -4,11 +4,23 @@ const nextConfig: NextConfig = {
   /* config options here */
   reactCompiler: true,
   images:{
-    remotePatterns:[{
-      protocol:'https',
-      hostname:'ecommerce.routemisr.com',
-      pathname:'/Route-Academy-products/**'
-    }]
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'ecommerce.routemisr.com',
+        pathname: '/Route-Academy-products/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'ecommerce.routemisr.com',
+        pathname: '/Route-Academy-categories/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'ecommerce.routemisr.com',
+        pathname: '/Route-Academy-brands/**',
+      },
+    ],
   }
 };
 

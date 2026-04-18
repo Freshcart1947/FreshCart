@@ -42,9 +42,8 @@ export const nextAuthConfig: NextAuthOptions = {
           },
         );
         const data = await response.json();
-        console.log(data.user._id , "user response");
-        
         if (data.message === "success") {
+          console.log(data.user._id, "user response");
           return {
             id: data.user.email,
             email: data.user.email,
@@ -62,13 +61,13 @@ export const nextAuthConfig: NextAuthOptions = {
       if (user) {
         token.userToken = user.userToken;
       }
-      return token
+      return token;
     },
-    session:({session , token})=>{
-      return session
-    }
+    session: ({ session, token }) => {
+      return session;
+    },
   },
-  pages:{
-    signIn:"/signin"
-  }
+  pages: {
+    signIn: "/signin",
+  },
 };

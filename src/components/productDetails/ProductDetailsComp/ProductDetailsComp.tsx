@@ -1,17 +1,11 @@
 import { ProductDetails } from "@/interfaces/productDetails.interface";
-import React from "react";
 import {
-  FaBolt,
-  FaRegHeart,
   FaShippingFast,
-  FaShoppingCart,
   FaStar,
 } from "react-icons/fa";
 import { FaArrowRotateLeft } from "react-icons/fa6";
 import { RiSecurePaymentLine } from "react-icons/ri";
 import ProductDetailsImages from "./ProductDetailsImages";
-import QuantityCounter from "../QuantityCounter/QuantityCounter";
-import AddToCartBtn from "@/components/AddToCartBtn/AddToCartBtn";
 import ProductDetailsProcesses from "../ProductDetailsProcesses/ProductDetailsProcesses";
 
 export default function ProductDetailsComp({

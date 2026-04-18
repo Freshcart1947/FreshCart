@@ -19,7 +19,6 @@ export default function ProductCard({ product }: { product: Product }) {
     <div className="group bg-white border border-gray-200 rounded-lg overflow-hidden flex flex-col h-full hover:shadow-lg transition-all duration-300">
       {/* Image Container */}
       <div className="relative">
-        {/* Sale Badge - بيظهر بس لو فيه خصم */}
         {product.priceAfterDiscount && (
           <div className="absolute top-3 left-3 z-10">
             <span className="bg-red-500 text-white text-[11px] font-bold px-2 py-1 rounded shadow-sm">
